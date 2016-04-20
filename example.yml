@@ -1,0 +1,16 @@
+deploy:
+  suquant/drone-composer:
+    path: docker-compose.yml
+    name: staging-$${TAG}
+    environments:
+      IMAGE='image:$${TAG}'
+    snapshot:
+      ssh: '//core@st01'
+      image: suquant/glusterd:3.6.9.1
+      device: /dev/vg0/media
+      size: 2g
+      environment: MEDIA_MOUNTCOMMAND
+    destination:
+      ssh: '//core@app01'
+    when:
+      event: tag
